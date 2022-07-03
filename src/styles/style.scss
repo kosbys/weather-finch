@@ -1,5 +1,6 @@
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Roboto-Regular';
+  font-weight: 400;
   src: url('../fonts/Roboto-Regular.ttf');
 }
 
@@ -7,23 +8,4 @@ body {
   display: flex;
   flex-direction: column;
   place-items: center;
-  background-color: gainsboro;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  place-items: center;
-}
-
-h4 {
-  font-size: 5rem;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-}
-
-a {
-  font-size: 2rem;
-  font-family: 'Roboto', sans-serif;
-  margin-bottom: 0.5rem;
 }

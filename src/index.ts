@@ -1,27 +1,28 @@
 import './styles/style.scss';
-import Kingfisher from './images/kingfisher.avif';
 
-function component() {
-  const container = document.createElement('div');
-  container.classList.add('container');
-  const element = document.createElement('h4');
-  element.textContent = 'Hello, World!';
-  const credit = document.createElement('a');
-  credit.innerHTML = 'Image Credits';
-  credit.href = 'https://unsplash.com/photos/vUNQaTtZeOo';
+const KEY = process.env.API_KEY;
 
-  container.append(element, credit);
+/**
+ * Fetches the geocode data of a city so it can be called by the weather API
+ *
+ * @param  city - The name of a city
+ * @returns A promise of json data
+ */
+async function cityToLatLon(city: string): Promise<any> {
+  const response = await fetch(
+    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${KEY}`
+  );
 
-  return container;
+  if (response.status === 200) {
+    const json = await response.json();
+    return json;
+  }
+
+  throw new Error(response.status.toString());
 }
 
-function image() {
-  const img = document.createElement('img');
-  img.src = Kingfisher;
+cityToLatLon('London').then(([c]) => {
+  console.log(c);
+});
 
-  return img;
-}
-
-document.body.append(component(), image());
-
-console.log(process.env.API_KEY);
+export default cityToLatLon;
