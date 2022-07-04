@@ -1,6 +1,3 @@
-/**
- * Weather handler
- */
 export default class Weather {
   key: string;
 
@@ -12,18 +9,19 @@ export default class Weather {
   }
 
   /**
-   * Fetches the geocode data of a city so it can be called by the weather API
+   * Fetches weather information about a city
    *
    * @param city - The name of a city
-   * @returns Promise JSON including name, country, latitude and longtitude
+   * @returns Promise JSON
    */
-  async cityInfo(city: string): Promise<any> {
+  async cityWeather(city: string): Promise<JSON> {
     const response = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.key}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.key}`
     );
 
     if (response.status === 200) {
-      return await response.json();
+      const json = await response.json();
+      return json;
     }
 
     throw new Error(response.status.toString());

@@ -1,19 +1,18 @@
 import './styles/style.scss';
 import Weather from './scripts/weather';
 import Bird from './scripts/bird';
-import getWikiData from './scripts/wiki';
+import getImageFromPage from './scripts/wiki';
+import getWikiPage from './scripts/wiki';
 
-const weather = new Weather(process.env.WEATHER_KEY);
-const bird = new Bird(process.env.BIRD_KEY);
+const weatherHandler = new Weather(process.env.WEATHER_KEY);
+const birdHandler = new Bird(process.env.BIRD_KEY);
 
-weather.cityInfo('London').then(([c]) => {
-  console.log(c);
-});
+const weather = weatherHandler.cityWeather('London');
 
-bird.getBird(32.633, 35.325).then((data) => {
-  console.log(data[0]);
-});
+const bird = birdHandler.getBird(32.633, 35.325);
 
-getWikiData('tree pipit').then((d) => {
-  console.log(d.originalimage.source);
+const wiki = getWikiPage('tree pipit');
+
+Promise.all([weather, bird, wiki]).then((arr) => {
+  console.log(arr);
 });
