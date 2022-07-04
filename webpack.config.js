@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, 'src'),
+  entry: './src/index.ts',
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -50,7 +50,7 @@ module.exports = {
   plugins: [
     new Dotenv(),
     new HtmlWebpackPlugin({
-      title: 'My Template',
+      title: 'Weather',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

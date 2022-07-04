@@ -1,28 +1,19 @@
 import './styles/style.scss';
+import Weather from './scripts/weather';
+import Bird from './scripts/bird';
+import getWikiData from './scripts/wiki';
 
-const KEY = process.env.API_KEY;
+const weather = new Weather(process.env.WEATHER_KEY);
+const bird = new Bird(process.env.BIRD_KEY);
 
-/**
- * Fetches the geocode data of a city so it can be called by the weather API
- *
- * @param  city - The name of a city
- * @returns A promise of json data
- */
-async function cityToLatLon(city: string): Promise<any> {
-  const response = await fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${KEY}`
-  );
-
-  if (response.status === 200) {
-    const json = await response.json();
-    return json;
-  }
-
-  throw new Error(response.status.toString());
-}
-
-cityToLatLon('London').then(([c]) => {
+weather.cityInfo('London').then(([c]) => {
   console.log(c);
 });
 
-export default cityToLatLon;
+bird.getBird(32.633, 35.325).then((data) => {
+  console.log(data[0]);
+});
+
+getWikiData('tree pipit').then((d) => {
+  console.log(d.originalimage.source);
+});
