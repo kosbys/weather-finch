@@ -51,7 +51,8 @@ module.exports = {
   plugins: [
     new Dotenv(),
     new HtmlWebpackPlugin({
-      title: 'Weather',
+      title: 'Weather Finch',
+      favicon: './favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
