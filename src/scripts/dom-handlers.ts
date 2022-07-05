@@ -85,9 +85,9 @@ export default (function domHandlers() {
     const error = <HTMLElement>document.querySelector('.search-error');
 
     if (type === 'empty') {
-      error.textContent = 'Cannot submit an empty query.';
+      error.textContent = 'Field empty';
     } else {
-      error.textContent = 'Cannot find your specified location.';
+      error.textContent = 'Location not found';
     }
 
     if (error.style.display === 'none') {

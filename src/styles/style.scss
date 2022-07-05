@@ -4,16 +4,21 @@
   src: url('../fonts/Roboto-Regular.ttf');
 }
 
+@font-face {
+  font-family: 'FredokaOne-Regular';
+  src: url('../fonts/FredokaOne-Regular.ttf');
+}
+
 $colors: (
-  'surface1': #e6e6e6,
-  'surface2': #f2f2f2,
-  'surface3': #ffffff,
-  'element1': #111111,
-  'element2': #222222,
-  'element3': #333333,
-  'primary': #2b2a69,
-  'secondary': #0f5b5d,
-  'tertiary': #fff7d6,
+  'surface1': #eff1f5,
+  'surface2': #ccd0da,
+  'surface3': #acb0be,
+  'element1': #4c4f69,
+  'element2': #5c5f77,
+  'element3': #6c6f85,
+  'primary': #8839ef,
+  'secondary': #40a02b,
+  'tertiary': #e64553,
 );
 
 @mixin color-var($property, $color) {
@@ -27,15 +32,15 @@ html {
 
 :root {
   &[color-mode='light'] {
-    --surface1: #e6e6e6;
-    --surface2: #f2f2f2;
-    --surface3: #ffffff;
-    --element1: #111111;
-    --element2: #222222;
-    --element3: #333333;
-    --primary: #2b2a69;
-    --secondary: #0f5b5d;
-    --tertiary: #fcbf49;
+    --surface1: #eff1f5;
+    --surface2: #ccd0da;
+    --surface3: #acb0be;
+    --element1: #4c4f69;
+    --element2: #5c5f77;
+    --element3: #6c6f85;
+    --primary: #8839ef;
+    --secondary: #40a02b;
+    --tertiary: #e64553;
     --box-shadow: 20px 20px 60px #cacaca, -20px -20px 60px #ffffff;
   }
 
@@ -44,15 +49,15 @@ html {
   }
 
   &[color-mode='dark'] {
-    --surface1: #212529;
-    --surface2: #333333;
-    --surface3: #404040;
-    --element1: #eeeeee;
-    --element2: #dddddd;
-    --element3: #cccccc;
-    --primary: #5856d7;
-    --secondary: #1ca7aa;
-    --tertiary: #ff8811;
+    --surface1: #1e1e2e;
+    --surface2: #45475a;
+    --surface3: #585b70;
+    --element1: #cdd6f4;
+    --element2: #bac2de;
+    --element3: #a6adc8;
+    --primary: #b4befe;
+    --secondary: #a6e3a1;
+    --tertiary: #fab387;
     --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
   }
 
@@ -79,10 +84,9 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  @include color-var(background-color, primary);
-  @include color-var(box-shadow, box-shadow);
+  @include color-var(background-color, surface3);
   & span {
-    font-family: 'Roboto-Regular';
+    font-family: 'FredokaOne-Regular';
     display: flex;
     @include color-var(color, tertiary);
     align-self: center;
@@ -93,7 +97,7 @@ header {
 
 #bird-icon {
   max-width: 1.5rem;
-  margin-left: 5px;
+  margin-left: 0.25rem;
 }
 
 .search {
@@ -108,10 +112,19 @@ header {
 }
 
 .search-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  width: max-content;
+  width: fit-content;
   place-self: center;
+}
+
+.search-done {
+  transform: translateY(50px);
+  transition-duration: 2s;
 }
 
 .search-error {
@@ -131,6 +144,7 @@ header {
 input[type='text'] {
   font-family: 'Roboto-Regular';
   font-size: 1.5rem;
+  padding: 0.25rem;
 }
 
 .color-mode-btn {
@@ -138,11 +152,11 @@ input[type='text'] {
   margin-right: 2rem;
   height: 1.5rem;
   width: 1.2rem;
-  @include color-var(background-color, surface2);
+  @include color-var(background-color, surface1);
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
-  @include color-var(color, element3);
+  @include color-var(color, element2);
   cursor: pointer;
   flex: 0 0 auto;
   font-family: 'Roboto-Regular';
@@ -161,7 +175,7 @@ input[type='text'] {
   touch-action: manipulation;
   width: auto;
   &:hover {
-    @include color-var(background-color, secondary);
+    @include color-var(background-color, surface2);
   }
   &:focus {
     box-shadow: none;
@@ -178,5 +192,13 @@ input[type='text'] {
 
   #header-text {
     font-size: 18px;
+  }
+
+  .search-error {
+    font-family: 1rem;
+  }
+
+  input[type='text'] {
+    font-size: 1.1rem;
   }
 }
