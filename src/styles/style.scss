@@ -11,11 +11,9 @@ $colors: (
   'element1': #111111,
   'element2': #222222,
   'element3': #333333,
-  'elementInverse': #eee,
   'primary': #2b2a69,
   'secondary': #0f5b5d,
   'tertiary': #fff7d6,
-  'error': #ff4d4d,
 );
 
 @mixin color-var($property, $color) {
@@ -71,13 +69,21 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .color-mode-btn {
   display: flex;
   place-items: center;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  & span {
+    align-self: center;
+    margin: 1rem;
+    font-size: 2rem;
+  }
 }
 
 /* Dark mode
@@ -100,10 +106,12 @@ body {
   display: flex;
   flex-direction: column;
   width: max-content;
+  place-self: center;
 }
 
 .search-error {
-  color: red;
+  padding-top: 0.5rem;
+  color: #ff4d4d;
   font-size: 1.2rem;
   font-family: 'Roboto-Regular';
 }

@@ -6,6 +6,22 @@ import Sun from '../images/sun.svg';
 import Moon from '../images/moon.svg';
 
 export default (function domHandlers() {
+  function createHeader() {
+    const header = document.createElement('header');
+    const headerText = document.createElement('span');
+    headerText.textContent = 'Weather Finch';
+
+    const colorModes: Array<HTMLElement> = colorModeButtons();
+
+    header.appendChild(headerText);
+
+    colorModes.forEach((button) => {
+      header.appendChild(button);
+    });
+
+    return header;
+  }
+
   function toggleColorMode(event: Event) {
     const button = event.currentTarget as HTMLElement;
 
@@ -16,7 +32,7 @@ export default (function domHandlers() {
     }
   }
 
-  function colorModeButtons() {
+  function colorModeButtons(): Array<HTMLElement> {
     const lightButton = document.createElement('button');
     lightButton.classList.add('color-mode-btn', 'light');
     lightButton.ariaLabel = 'Toggle Light Mode';
@@ -39,12 +55,15 @@ export default (function domHandlers() {
       button.addEventListener('click', toggleColorMode);
     });
 
-    document.body.append(lightButton, darkButton);
+    return [lightButton, darkButton];
   }
 
   function createPage() {
     document.documentElement.setAttribute('color-mode', 'light');
-    colorModeButtons();
+
+    const header = createHeader();
+
+    document.body.appendChild(header);
   }
 
   function showSpinner() {
