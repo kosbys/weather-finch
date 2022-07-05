@@ -119,7 +119,7 @@ export default async function toLocationInfoPromise(location: string): Promise<L
       country: locationData.sys.country,
       temperature: { celsius: tempCelsius, fahrenheit: tempFahrenheit },
       humidity: locationData.main.humidity,
-      weather: locationData.weather[0].main,
+      weather: locationData.weather[0].description,
       time: FormatLocalTime(locationData.timezone),
       bird: { name: birdName, image: image.originalimage.source },
     };

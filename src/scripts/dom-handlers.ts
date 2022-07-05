@@ -4,6 +4,10 @@ import Search from '../images/search-dark.svg';
 import Spinner from '../images/spinner.svg';
 
 export default (function domHandlers() {
+  // TODO: Create and style the page
+
+  function createPage() {}
+
   function showSpinner() {
     const spinner = document.createElement('img');
     spinner.src = Spinner;
@@ -16,10 +20,14 @@ export default (function domHandlers() {
     document.body.removeChild(spinner);
   }
 
-  function formError(type: string) {
+  function hideError() {
+    const error = <HTMLElement>document.querySelector('.search-error');
+    error.style.display = 'none';
+  }
+
+  function showError(type: string) {
     // TODO: Make this function toggle visibility and add error as a hidden element beforehand
-    const error = document.createElement('div');
-    error.className = 'search-error';
+    const error = <HTMLElement>document.querySelector('.search-error');
 
     if (type === 'empty') {
       error.textContent = 'Cannot submit an empty query.';
@@ -27,24 +35,27 @@ export default (function domHandlers() {
       error.textContent = 'Cannot find your specified location.';
     }
 
-    document.body.append(error);
+    if (error.style.display === 'none') {
+      error.style.display = 'block';
+    }
   }
 
   function sendForm(event: KeyboardEvent): LocationInfo {
     const searchbar = <HTMLInputElement>document.getElementsByName('location')[0];
     if (searchbar.value === '') {
-      formError('empty');
+      showError('empty');
       return;
     } else {
       showSpinner();
       const data = toLocationInfoPromise(searchbar.value)
         .then((result) => {
           hideSpinner();
+          hideError();
           console.log(result);
         })
         .catch((error) => {
           hideSpinner();
-          formError(error);
+          showError(error);
         });
 
       searchbar.value = '';
@@ -53,7 +64,9 @@ export default (function domHandlers() {
     event.preventDefault();
   }
 
-  function createSearch(): HTMLFormElement {
+  function createSearch(): HTMLDivElement {
+    const container = document.createElement('div');
+    container.className = 'search-container';
     const form = document.createElement('form');
     form.className = 'search';
 
@@ -67,11 +80,17 @@ export default (function domHandlers() {
     icon.src = Search;
     icon.addEventListener('click', sendForm);
 
+    const error = document.createElement('span');
+    error.className = 'search-error';
+    error.style.display = 'none';
+
     form.append(input, icon);
 
     form.addEventListener('submit', sendForm);
 
-    return form;
+    container.append(form, error);
+
+    return container;
   }
-  return { createSearch };
+  return { createPage, createSearch };
 })();

@@ -6,6 +6,10 @@
 
 body {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  place-content: center;
 }
 
 /* Dark mode
@@ -21,9 +25,15 @@ body {
   cursor: pointer;
 }
 
+.search-container {
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+}
+
 .search-error {
   color: red;
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-family: 'Roboto-Regular';
 }
 
