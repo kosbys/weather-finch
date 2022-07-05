@@ -1,8 +1,15 @@
 import { DateTime } from 'luxon';
+import LocationInfo from '../index';
 
+/**
+ * Parse time using luxon
+ *
+ * @param offset - OpenWeatherMap UTC offset in seconds
+ * @returns 24 hour clock time of a selected location in the form HH:MM
+ */
 function FormatLocalTime(offset: number): string {
   return DateTime.now()
-    .toUTC(offset / 60)
+    .toUTC(offset / 60) // Convert from OpenWeather seconds offset to minutes for Luxon
     .toLocaleString(DateTime.TIME_24_SIMPLE);
 }
 
@@ -13,7 +20,7 @@ function FormatLocalTime(offset: number): string {
  * @returns Promise JSON
  */
 async function getLocationWeather(location: string): Promise<any> {
-  const WEATHER_KEY = process.env.WEATHER_KEY;
+  const WEATHER_KEY = process.env.WEATHER_KEY; // located in .env
 
   if (!WEATHER_KEY) {
     throw new Error('Missing OpenWeatherMap API key');
@@ -28,17 +35,18 @@ async function getLocationWeather(location: string): Promise<any> {
     return json;
   }
 
-  throw new Error(response.status.toString());
+  throw new Error(`Cannot find ${location}`);
 }
 
 /**
  * Fetches a list of notable recent birds spotted in the area
+ *
  * @param lat - Latitude of a location
  * @param lon - Longtitude of a location
  * @returns Promise JSON
  */
 async function getBird(lat: number, lon: number): Promise<any> {
-  const BIRD_KEY = process.env.BIRD_KEY;
+  const BIRD_KEY = process.env.BIRD_KEY; // located in .env
 
   if (!BIRD_KEY) {
     throw new Error('Missing eBird API key');
@@ -59,7 +67,7 @@ async function getBird(lat: number, lon: number): Promise<any> {
     return json;
   }
 
-  throw new Error(response.status.toString());
+  throw new Error('Cannot find bird');
 }
 
 /**
@@ -78,27 +86,18 @@ async function getWikiPage(query: string): Promise<any> {
     return json;
   }
 
-  throw new Error(response.status.toString());
-}
-
-interface LocationInfo {
-  location: string;
-  country: string;
-  temperature: { celsius: number; fahrenheit: number };
-  humidity: number;
-  weather: string;
-  time: string;
-  bird: { name: string; image: string };
+  throw Error('Cannot find wiki page');
 }
 
 /**
  * Calls APIs in sequence of:
- * - location weather info
+ * - Location weather info
  * - Notable birds nearby
- * - Image of bird from wikipedia
- * And processes the combined data into a single object to be used easily.
+ * - Image of first notable bird from wikipedia
  *
- * @param location - Name of a location (hopefully) located in the world
+ *  Then processes the combined data into a single object to be used easily.
+ *
+ * @param location - Name of a location in the world
  * @returns Information about a location
  */
 export default async function toLocationInfoPromise(location: string): Promise<LocationInfo> {
@@ -109,7 +108,8 @@ export default async function toLocationInfoPromise(location: string): Promise<L
     const tempCelsius = Math.round(locationData.main.temp);
     const tempFahrenheit = Math.round(locationData.main.temp * 1.8 + 32);
 
-    const [bird] = await getBird(lat, lon);
+    const [bird] = await getBird(lat, lon); // Destructure to only contain first bird on list
+
     const birdName = bird.comName;
 
     const image = await getWikiPage(birdName);
@@ -119,11 +119,11 @@ export default async function toLocationInfoPromise(location: string): Promise<L
       country: locationData.sys.country,
       temperature: { celsius: tempCelsius, fahrenheit: tempFahrenheit },
       humidity: locationData.main.humidity,
-      weather: locationData.weather[0].description,
+      weather: locationData.weather[0].main,
       time: FormatLocalTime(locationData.timezone),
       bird: { name: birdName, image: image.originalimage.source },
     };
   } catch (error) {
-    throw new Error(error);
+    throw Error(error);
   }
 }
