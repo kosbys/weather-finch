@@ -2,14 +2,20 @@ import toLocationInfoPromise from './api-handlers';
 import LocationInfo from '../index';
 import Search from '../images/search-dark.svg';
 import Spinner from '../images/spinner.svg';
-import Sun from '../images/sun.svg';
-import Moon from '../images/moon.svg';
+import Bird from '../images/bird.svg';
 
 export default (function domHandlers() {
   function createHeader() {
     const header = document.createElement('header');
     const headerText = document.createElement('span');
+    headerText.id = 'header-text';
     headerText.textContent = 'Weather Finch';
+
+    const headerIcon = document.createElement('img');
+    headerIcon.src = Bird;
+    headerIcon.id = 'bird-icon';
+
+    headerText.appendChild(headerIcon);
 
     const colorModes: Array<HTMLElement> = colorModeButtons();
 
@@ -36,20 +42,12 @@ export default (function domHandlers() {
     const lightButton = document.createElement('button');
     lightButton.classList.add('color-mode-btn', 'light');
     lightButton.ariaLabel = 'Toggle Light Mode';
-    lightButton.textContent = 'Toggle Light Mode';
-    const lightIcon = document.createElement('img');
-    lightIcon.ariaHidden = 'true';
-    lightIcon.src = Sun;
-    lightButton.appendChild(lightIcon);
+    lightButton.textContent = 'Light ☀️';
 
     const darkButton = document.createElement('button');
     darkButton.classList.add('color-mode-btn', 'dark');
     darkButton.ariaLabel = 'Toggle Dark Mode';
-    darkButton.textContent = 'Toggle Dark Mode';
-    const darkIcon = document.createElement('img');
-    darkIcon.ariaHidden = 'true';
-    darkIcon.src = Moon;
-    darkButton.appendChild(darkIcon);
+    darkButton.textContent = 'Dark 🌙';
 
     [lightButton, darkButton].forEach((button) => {
       button.addEventListener('click', toggleColorMode);

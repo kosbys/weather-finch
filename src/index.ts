@@ -17,3 +17,5 @@ domHandlers.createPage();
 document.body.append(domHandlers.createSearch());
 
 // TODO: display and style
+// theme button margin and styling etc
+// where to put the bird?

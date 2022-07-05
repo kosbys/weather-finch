@@ -35,7 +35,7 @@ html {
     --element3: #333333;
     --primary: #2b2a69;
     --secondary: #0f5b5d;
-    --tertiary: #fff7d6;
+    --tertiary: #fcbf49;
     --box-shadow: 20px 20px 60px #cacaca, -20px -20px 60px #ffffff;
   }
 
@@ -52,7 +52,7 @@ html {
     --element3: #cccccc;
     --primary: #5856d7;
     --secondary: #1ca7aa;
-    --tertiary: #fbe8a1;
+    --tertiary: #ff8811;
     --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
   }
 
@@ -79,17 +79,22 @@ body {
 header {
   display: flex;
   justify-content: space-between;
+  @include color-var(background-color, primary);
+  @include color-var(box-shadow, box-shadow);
   & span {
+    font-family: 'Roboto-Regular';
+    display: flex;
+    @include color-var(color, tertiary);
     align-self: center;
     margin: 1rem;
     font-size: 2rem;
   }
 }
 
-/* Dark mode
- .search-icon {
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(236deg) brightness(102%) contrast(102%);
-} */
+#bird-icon {
+  max-width: 1.5rem;
+  margin-left: 5px;
+}
 
 .search {
   display: flex;
@@ -126,4 +131,52 @@ header {
 input[type='text'] {
   font-family: 'Roboto-Regular';
   font-size: 1.5rem;
+}
+
+.color-mode-btn {
+  align-self: center;
+  margin-right: 2rem;
+  height: 1.5rem;
+  width: 1.2rem;
+  @include color-var(background-color, surface2);
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  @include color-var(color, element3);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: 'Roboto-Regular';
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 0.12rem 0.5rem;
+  text-align: center;
+  text-decoration: none #6b7280 solid;
+  text-decoration-thickness: auto;
+  transition-duration: 0.2s;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  &:hover {
+    @include color-var(background-color, secondary);
+  }
+  &:focus {
+    box-shadow: none;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+}
+@media (max-width: 768px) {
+  .color-mode-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+
+  #header-text {
+    font-size: 18px;
+  }
 }
