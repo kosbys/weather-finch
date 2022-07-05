@@ -1,8 +1,21 @@
 import toLocationInfoPromise from './api-handlers';
-import Search from '../images/search-dark.svg';
 import LocationInfo from '../index';
+import Search from '../images/search-dark.svg';
+import Spinner from '../images/spinner.svg';
 
 export default (function domHandlers() {
+  function showSpinner() {
+    const spinner = document.createElement('img');
+    spinner.src = Spinner;
+    spinner.className = 'spinner';
+    document.body.append(spinner);
+  }
+
+  function hideSpinner() {
+    const spinner = document.getElementsByClassName('spinner')[0];
+    document.body.removeChild(spinner);
+  }
+
   function formError(type: string) {
     // TODO: Make this function toggle visibility and add error as a hidden element beforehand
     const error = document.createElement('div');
@@ -23,11 +36,14 @@ export default (function domHandlers() {
       formError('empty');
       return;
     } else {
+      showSpinner();
       const data = toLocationInfoPromise(searchbar.value)
         .then((result) => {
+          hideSpinner();
           console.log(result);
         })
         .catch((error) => {
+          hideSpinner();
           formError(error);
         });
 

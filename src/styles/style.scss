@@ -27,6 +27,13 @@ body {
   font-family: 'Roboto-Regular';
 }
 
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 input[type='text'] {
   font-family: 'Roboto-Regular';
 }

@@ -1,5 +1,6 @@
 import domHandlers from './scripts/dom-handlers';
 import './styles/style.scss';
+import Spinner from './images/spinner.svg';
 
 /**
  * Weather information about a location and a bird recently found nearby
