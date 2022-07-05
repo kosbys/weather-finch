@@ -2,11 +2,50 @@ import toLocationInfoPromise from './api-handlers';
 import LocationInfo from '../index';
 import Search from '../images/search-dark.svg';
 import Spinner from '../images/spinner.svg';
+import Sun from '../images/sun.svg';
+import Moon from '../images/moon.svg';
 
 export default (function domHandlers() {
-  // TODO: Create and style the page
+  function toggleColorMode(event: Event) {
+    const button = event.currentTarget as HTMLElement;
 
-  function createPage() {}
+    if (button.classList.contains('light')) {
+      document.documentElement.setAttribute('color-mode', 'light');
+    } else {
+      document.documentElement.setAttribute('color-mode', 'dark');
+    }
+  }
+
+  function colorModeButtons() {
+    const lightButton = document.createElement('button');
+    lightButton.classList.add('color-mode-btn', 'light');
+    lightButton.ariaLabel = 'Toggle Light Mode';
+    lightButton.textContent = 'Toggle Light Mode';
+    const lightIcon = document.createElement('img');
+    lightIcon.ariaHidden = 'true';
+    lightIcon.src = Sun;
+    lightButton.appendChild(lightIcon);
+
+    const darkButton = document.createElement('button');
+    darkButton.classList.add('color-mode-btn', 'dark');
+    darkButton.ariaLabel = 'Toggle Dark Mode';
+    darkButton.textContent = 'Toggle Dark Mode';
+    const darkIcon = document.createElement('img');
+    darkIcon.ariaHidden = 'true';
+    darkIcon.src = Moon;
+    darkButton.appendChild(darkIcon);
+
+    [lightButton, darkButton].forEach((button) => {
+      button.addEventListener('click', toggleColorMode);
+    });
+
+    document.body.append(lightButton, darkButton);
+  }
+
+  function createPage() {
+    document.documentElement.setAttribute('color-mode', 'light');
+    colorModeButtons();
+  }
 
   function showSpinner() {
     const spinner = document.createElement('img');
@@ -26,7 +65,6 @@ export default (function domHandlers() {
   }
 
   function showError(type: string) {
-    // TODO: Make this function toggle visibility and add error as a hidden element beforehand
     const error = <HTMLElement>document.querySelector('.search-error');
 
     if (type === 'empty') {

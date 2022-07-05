@@ -4,12 +4,80 @@
   src: url('../fonts/Roboto-Regular.ttf');
 }
 
+$colors: (
+  'surface1': #e6e6e6,
+  'surface2': #f2f2f2,
+  'surface3': #ffffff,
+  'element1': #111111,
+  'element2': #222222,
+  'element3': #333333,
+  'elementInverse': #eee,
+  'primary': #2b2a69,
+  'secondary': #0f5b5d,
+  'tertiary': #fff7d6,
+  'error': #ff4d4d,
+);
+
+@mixin color-var($property, $color) {
+  #{$property}: map-get($colors, '#{$color}');
+  #{$property}: var(--#{$color}, map-get($colors, '#{$color}'));
+}
+
+html {
+  @include color-var(background-color, surface1);
+}
+
+:root {
+  &[color-mode='light'] {
+    --surface1: #e6e6e6;
+    --surface2: #f2f2f2;
+    --surface3: #ffffff;
+    --element1: #111111;
+    --element2: #222222;
+    --element3: #333333;
+    --primary: #2b2a69;
+    --secondary: #0f5b5d;
+    --tertiary: #fff7d6;
+    --box-shadow: 20px 20px 60px #cacaca, -20px -20px 60px #ffffff;
+  }
+
+  &[color-mode='light'] .light {
+    display: none;
+  }
+
+  &[color-mode='dark'] {
+    --surface1: #212529;
+    --surface2: #333333;
+    --surface3: #404040;
+    --element1: #eeeeee;
+    --element2: #dddddd;
+    --element3: #cccccc;
+    --primary: #5856d7;
+    --secondary: #1ca7aa;
+    --tertiary: #fbe8a1;
+    --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
+  }
+
+  &[color-mode='dark'] .dark {
+    display: none;
+  }
+
+  &[color-mode='dark'] .search-icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(236deg) brightness(102%) contrast(102%);
+  }
+}
+
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.color-mode-btn {
+  display: flex;
   place-items: center;
-  place-content: center;
 }
 
 /* Dark mode
@@ -23,12 +91,15 @@ body {
 
 .search-icon {
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .search-container {
   display: flex;
   flex-direction: column;
-  width: 10rem;
+  width: max-content;
 }
 
 .search-error {
@@ -46,4 +117,5 @@ body {
 
 input[type='text'] {
   font-family: 'Roboto-Regular';
+  font-size: 1.5rem;
 }
