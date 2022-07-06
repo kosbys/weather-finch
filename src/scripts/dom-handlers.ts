@@ -27,7 +27,6 @@ export default (function domHandlers() {
 
     main.style.visibility = 'visible';
 
-    console.log(data);
     Object.entries(data).forEach(([key, value]) => {
       if (key !== 'bird') {
         const currentDiv = document.getElementsByClassName(key)[0];
@@ -103,8 +102,6 @@ export default (function domHandlers() {
         displayLocationInfo(result);
       })
       .catch((err) => {
-        console.log(err);
-
         showError(err as string);
       })
       .finally(() => {
