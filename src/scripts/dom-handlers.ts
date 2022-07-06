@@ -75,9 +75,8 @@ export default (function domHandlers() {
   }
 
   function showSpinner() {
-    const spinner = document.createElement('img');
-    spinner.src = Spinner;
-    spinner.className = 'spinner';
+    const spinner = document.getElementsByClassName('spinner')[0] as HTMLImageElement;
+    spinner.style.visibility = 'visible';
     switch (document.documentElement.getAttribute('color-mode')) {
       case 'dark':
         spinner.classList.add('spinner-contrast');
@@ -86,18 +85,11 @@ export default (function domHandlers() {
         spinner.classList.remove('spinner-contrast');
         break;
     }
-
-    document.body.append(spinner);
   }
 
   function hideSpinner() {
-    const spinner = document.getElementsByClassName('spinner')[0];
-    document.body.removeChild(spinner);
-  }
-
-  function hideError() {
-    const error = <HTMLElement>document.querySelector('.search-error');
-    error.style.display = 'none';
+    const spinner = document.getElementsByClassName('spinner')[0] as HTMLImageElement;
+    spinner.style.visibility = 'hidden';
   }
 
   function showError(type: string) {
@@ -114,8 +106,22 @@ export default (function domHandlers() {
     }
   }
 
+  function hideError() {
+    const error = <HTMLElement>document.querySelector('.search-error');
+    error.style.display = 'none';
+  }
+
+  function displayForm(data: LocationInfo) {
+    const searchContainer = document.getElementsByClassName('search-container')[0];
+    searchContainer.classList.add('search-done');
+    console.log(data);
+  }
+
   function sendForm(event: KeyboardEvent): LocationInfo {
     const searchbar = <HTMLInputElement>document.getElementsByName('location')[0];
+    const weather = document.createElement('div');
+    weather.classList.add('weather-info');
+
     if (searchbar.value === '') {
       showError('empty');
       return;
@@ -124,7 +130,7 @@ export default (function domHandlers() {
       const data = toLocationInfoPromise(searchbar.value)
         .then((result) => {
           hideError();
-          console.log(result);
+          displayForm(result);
         })
         .catch((error) => {
           showError(error);
@@ -156,11 +162,16 @@ export default (function domHandlers() {
     icon.src = Search;
     icon.addEventListener('click', sendForm);
 
+    const spinner = document.createElement('img');
+    spinner.src = Spinner;
+    spinner.className = 'spinner';
+    spinner.style.visibility = 'hidden';
+
     const error = document.createElement('span');
     error.className = 'search-error';
     error.style.display = 'none';
 
-    form.append(input, icon);
+    form.append(input, icon, spinner);
 
     form.addEventListener('submit', sendForm);
 

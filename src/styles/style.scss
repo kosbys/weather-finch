@@ -26,6 +26,10 @@ $colors: (
   #{$property}: var(--#{$color}, map-get($colors, '#{$color}'));
 }
 
+* {
+  transition: background-color 500ms linear;
+}
+
 html {
   @include color-var(background-color, surface1);
 }
@@ -102,24 +106,25 @@ header {
 
 .search {
   display: flex;
+  justify-content: start;
 }
 
 .search-icon {
   cursor: pointer;
+  margin-left: 0.25rem;
   &:hover {
     transform: scale(1.05);
   }
 }
 
 .search-container {
-  margin-top: calc(1rem + 20vh);
+  margin-top: 35vh;
   align-self: center;
   display: flex;
   flex-direction: column;
   width: fit-content;
 }
 
-// IMPORTANT!
 .search-done {
   margin-top: calc(1rem + 2.5vh);
   transition-duration: 2s;
@@ -133,11 +138,7 @@ header {
 }
 
 .spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transform: scale(2);
+  transform: scale(1.5);
 }
 
 .spinner-contrast {
@@ -195,6 +196,7 @@ input[type='text'] {
     outline-offset: 2px;
   }
 }
+
 @media (max-width: 768px) {
   .color-mode-btn {
     padding: 0.75rem 1.5rem;
