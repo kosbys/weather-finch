@@ -1,25 +1,20 @@
 
-<p align="center">
-<img width="100px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" />
-</p>
-
 <h1 align="center">
- Webpack-Template </h1>
-My template to get started quickly on projects
+ Weather Finch </h1>
+A small app that allows you to search for the current temperature of any city in the world while also treating you to a bird from the sam
+
 
 # :blue_book: Get started
 
 ```bash
-git clone git@github.com:kosbys/webpack-template.git
-cd webpack-template
+git clone git@github.com:kosbys/weather-finch.git
+cd weather-finch
 npm install
 ```
 
-##  :wrench: Tools
+##  :wrench: Made with:
 
 - Webpack
-- Babel
 - TypeScript
 - Sass
-- ESLint + Prettier
-- Environment variables with dotenv-webpack
+
