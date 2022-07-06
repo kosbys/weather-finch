@@ -33,8 +33,10 @@ export default (function domHandlers() {
 
     if (button.classList.contains('light')) {
       document.documentElement.setAttribute('color-mode', 'light');
+      localStorage.setItem('color-mode', 'light');
     } else {
       document.documentElement.setAttribute('color-mode', 'dark');
+      localStorage.setItem('color-mode', 'dark');
     }
   }
 
@@ -57,7 +59,15 @@ export default (function domHandlers() {
   }
 
   function createPage() {
-    document.documentElement.setAttribute('color-mode', 'light');
+    if (
+      localStorage.getItem('color-mode') === 'dark' ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches &&
+        !localStorage.getItem('color-mode'))
+    ) {
+      document.documentElement.setAttribute('color-mode', 'dark');
+    } else {
+      document.documentElement.setAttribute('color-mode', 'light');
+    }
 
     const header = createHeader();
 
@@ -68,6 +78,15 @@ export default (function domHandlers() {
     const spinner = document.createElement('img');
     spinner.src = Spinner;
     spinner.className = 'spinner';
+    switch (document.documentElement.getAttribute('color-mode')) {
+      case 'dark':
+        spinner.classList.add('spinner-contrast');
+        break;
+      default:
+        spinner.classList.remove('spinner-contrast');
+        break;
+    }
+
     document.body.append(spinner);
   }
 
@@ -125,6 +144,7 @@ export default (function domHandlers() {
     container.className = 'search-container';
     const form = document.createElement('form');
     form.className = 'search';
+    form.autocomplete = 'off';
 
     const input = document.createElement('input');
     input.type = 'text';

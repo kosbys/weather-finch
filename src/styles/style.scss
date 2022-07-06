@@ -55,7 +55,7 @@ html {
     --element1: #cdd6f4;
     --element2: #bac2de;
     --element3: #a6adc8;
-    --primary: #b4befe;
+    --primary: #89b4fa;
     --secondary: #a6e3a1;
     --tertiary: #fab387;
     --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
@@ -112,7 +112,7 @@ header {
 }
 
 .search-container {
-  margin-top: calc(2rem + 25vh);
+  margin-top: calc(1rem + 20vh);
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -121,7 +121,7 @@ header {
 
 // IMPORTANT!
 .search-done {
-  transform: translateY(-20vh);
+  margin-top: calc(1rem + 2.5vh);
   transition-duration: 2s;
 }
 
@@ -137,6 +137,11 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transform: scale(2);
+}
+
+.spinner-contrast {
+  filter: invert(100%) sepia(94%) saturate(0%) hue-rotate(329deg) brightness(108%) contrast(108%);
 }
 
 input[type='text'] {
@@ -145,7 +150,13 @@ input[type='text'] {
   padding: 0.25rem;
   border: 0;
   outline: 2px solid;
-  @include color-var(outline-color, surface2);
+  @include color-var(outline-color, surface3);
+  @include color-var(color, element1);
+  @include color-var(background-color, surface2);
+  &::placeholder {
+    @include color-var(color, element2);
+    opacity: 0.6;
+  }
 }
 
 .color-mode-btn {
