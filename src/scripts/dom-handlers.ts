@@ -5,6 +5,7 @@ import Spinner from '../images/spinner.svg';
 import Bird from '../images/bird.svg';
 
 export default (function domHandlers() {
+  const weatherInfo = ['location', 'country', 'temperature', 'humidity', 'weather', 'time'];
   function toggleColorMode(event: Event) {
     const button = event.currentTarget as HTMLElement;
 
@@ -18,8 +19,31 @@ export default (function domHandlers() {
   }
 
   function displayLocationInfo(data: LocationInfo) {
+    const main = document.getElementById('main');
+    const birdName = document.getElementsByClassName('bird-name')[0];
+    birdName.textContent = `I found a ${data.bird.name} in ${data.location}!`;
+    const birdImage = document.getElementsByClassName('bird-image')[0] as HTMLImageElement;
+    birdImage.src = data.bird.image;
+
+    main.style.visibility = 'visible';
+
     console.log(data);
-    document.getElementsByTagName('main')[0].style.visibility = 'visible';
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== 'bird') {
+        const currentDiv = document.getElementsByClassName(key)[0];
+
+        currentDiv.textContent = `${key}: ${value}`;
+
+        if (key === 'humidity') {
+          currentDiv.textContent += '%';
+        }
+
+        if (key === 'temperature') {
+          currentDiv.classList.add('celsius');
+          currentDiv.textContent += '℃';
+        }
+      }
+    });
   }
 
   function showSpinner() {
@@ -41,12 +65,13 @@ export default (function domHandlers() {
   }
 
   function hideError() {
-    const error = <HTMLElement>document.querySelector('.search-error');
+    const error = document.getElementsByClassName('search-error')[0] as HTMLElement;
+
     error.style.display = 'none';
   }
 
   function showError(type: string) {
-    const error = <HTMLElement>document.querySelector('.search-error');
+    const error = document.getElementsByClassName('search-error')[0] as HTMLElement;
 
     if (type === 'empty') {
       error.textContent = 'Field empty';
@@ -77,8 +102,10 @@ export default (function domHandlers() {
         hideError();
         displayLocationInfo(result);
       })
-      .catch((error) => {
-        showError(error);
+      .catch((err) => {
+        console.log(err);
+
+        showError(err as string);
       })
       .finally(() => {
         hideSpinner();
@@ -114,7 +141,7 @@ export default (function domHandlers() {
     headerText.textContent = 'Weather Finch';
 
     const headerIcon = document.createElement('img');
-    headerIcon.src = Bird;
+    headerIcon.src = Bird as string;
     headerIcon.id = 'bird-icon';
 
     headerText.appendChild(headerIcon);
@@ -132,38 +159,32 @@ export default (function domHandlers() {
 
   function createLocationInfo(): HTMLElement {
     const main = document.createElement('main');
+    main.id = 'main';
     const weatherDiv = document.createElement('div');
     weatherDiv.className = 'weather-info';
     const birdDiv = document.createElement('div');
     birdDiv.className = 'bird-info';
 
-    const weatherInfo = [
-      'location',
-      'country',
-      'temperature',
-      'humidity',
-      'weather',
-      'weatherIcon',
-      'time',
-    ];
+    const weatherIcon = document.createElement('img');
 
-    const birdInfo = ['birdName', 'birdImage'];
+    weatherIcon.className = 'weather-icon';
+
+    weatherDiv.appendChild(weatherIcon);
 
     weatherInfo.forEach((el) => {
-      const div = document.createElement('div');
-      div.className = el;
-      div.textContent = 'PLACEHOLDER';
+      const div = document.createElement('span');
 
+      div.className = el;
       weatherDiv.appendChild(div);
     });
 
-    birdInfo.forEach((el) => {
-      const div = document.createElement('div');
-      div.className = el;
-      div.textContent = 'PLACEHOLDER';
+    const birdName = document.createElement('div');
+    birdName.className = 'bird-name';
 
-      birdDiv.appendChild(div);
-    });
+    const birdImage = document.createElement('img');
+    birdImage.className = 'bird-image';
+
+    birdDiv.append(birdName, birdImage);
 
     main.style.visibility = 'hidden';
 
@@ -186,23 +207,23 @@ export default (function domHandlers() {
 
     const icon = document.createElement('img');
     icon.className = 'search-icon';
-    icon.src = Search;
+    icon.src = Search as string;
     icon.addEventListener('click', sendForm);
 
     const spinner = document.createElement('img');
-    spinner.src = Spinner;
+    spinner.src = Spinner as string;
     spinner.className = 'spinner';
     spinner.style.visibility = 'hidden';
 
-    const error = document.createElement('span');
-    error.className = 'search-error';
-    error.style.display = 'none';
+    const err = document.createElement('span');
+    err.className = 'search-error';
+    err.style.display = 'none';
 
     form.append(input, icon, spinner);
 
     form.addEventListener('submit', sendForm);
 
-    container.append(form, error);
+    container.append(form, err);
 
     return container;
   }

@@ -15,9 +15,3 @@ export default interface LocationInfo {
 }
 
 domHandlers.createPage();
-
-// TODO: display and style
-// theme button margin and styling etc
-// where to put the bird?
-// form dark colors
-// temp type change button

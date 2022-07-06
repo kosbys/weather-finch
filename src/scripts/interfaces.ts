@@ -1,7 +1,7 @@
 interface LocationInfo {
   location: string;
   country: string;
-  temperature: { celsius: number; fahrenheit: number };
+  temperature: number;
   humidity: number;
   weather: string;
   time: string;
@@ -20,4 +20,8 @@ interface Weather {
   weather: Array<{ description: string }>;
 }
 
-export { LocationInfo, Bird, Weather };
+interface WikiImage {
+  originalimage: { source: string };
+}
+
+export { LocationInfo, Bird, Weather, WikiImage };
