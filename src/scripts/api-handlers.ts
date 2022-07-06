@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import LocationInfo from '../index';
+import { LocationInfo, Bird, Weather } from './interfaces';
 
 /**
  * Parse time using luxon
@@ -13,14 +13,6 @@ function FormatLocalTime(offset: number): string {
     .toLocaleString(DateTime.TIME_24_SIMPLE);
 }
 
-interface Weather {
-  coord: { lon: number; lat: number };
-  sys: { country: string };
-  main: { temp: number; humidity: number };
-  timezone: number;
-  weather: Array<{ description: string }>;
-}
-
 /**
  * Fetches weather information about a location
  *
@@ -28,7 +20,7 @@ interface Weather {
  * @returns Promise JSON
  */
 async function getLocationWeather(location: string): Promise<Weather> {
-  const WEATHER_KEY = process.env.WEATHER_KEY; // located in .env
+  const { WEATHER_KEY } = process.env; // located in .env
 
   if (!WEATHER_KEY) {
     throw new Error('Missing OpenWeatherMap API key');
@@ -46,10 +38,6 @@ async function getLocationWeather(location: string): Promise<Weather> {
   throw new Error(`Cannot find ${location}`);
 }
 
-interface Bird {
-  comName: string;
-}
-
 /**
  * Fetches a list of notable recent birds spotted in the area
  *
@@ -58,7 +46,7 @@ interface Bird {
  * @returns Promise JSON
  */
 async function getBird(lat: number, lon: number): Promise<Array<Bird>> {
-  const BIRD_KEY = process.env.BIRD_KEY; // located in .env
+  const { BIRD_KEY } = process.env; // located in .env
 
   if (!BIRD_KEY) {
     throw new Error('Missing eBird API key');
@@ -113,35 +101,25 @@ async function getWikiPage(query: string): Promise<any> {
  * @returns Information about a location
  */
 export default async function toLocationInfoPromise(location: string): Promise<LocationInfo> {
-  while (true) {
-    const locationData = await getLocationWeather(location);
-    const lat = locationData.coord.lat;
-    const lon = locationData.coord.lon;
-    const tempCelsius = Math.round(locationData.main.temp);
-    const tempFahrenheit = Math.round(locationData.main.temp * 1.8 + 32);
+  const locationData = await getLocationWeather(location);
+  const { lat } = locationData.coord;
+  const { lon } = locationData.coord;
+  const tempCelsius = Math.round(locationData.main.temp);
+  const tempFahrenheit = Math.round(locationData.main.temp * 1.8 + 32);
 
-    const bird = await getBird(lat, lon);
+  const bird = await getBird(lat, lon);
 
-    let birdName;
-    let image;
+  const birdName = bird[0].comName;
 
-    for (let i = 0; i < bird.length; i++) {
-      birdName = bird[i].comName;
+  const image = await getWikiPage(birdName);
 
-      try {
-        image = await getWikiPage(birdName);
-        break;
-      } catch {}
-    }
-
-    return await {
-      location,
-      country: locationData.sys.country,
-      temperature: { celsius: tempCelsius, fahrenheit: tempFahrenheit },
-      humidity: locationData.main.humidity,
-      weather: locationData.weather[0].description,
-      time: FormatLocalTime(locationData.timezone),
-      bird: { name: birdName, image: image.originalimage.source },
-    };
-  }
+  return {
+    location,
+    country: locationData.sys.country,
+    temperature: { celsius: tempCelsius, fahrenheit: tempFahrenheit },
+    humidity: locationData.main.humidity,
+    weather: locationData.weather[0].description,
+    time: FormatLocalTime(locationData.timezone),
+    bird: { name: birdName, image: image.originalimage.source },
+  };
 }

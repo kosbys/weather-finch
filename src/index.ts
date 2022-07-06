@@ -13,8 +13,8 @@ export default interface LocationInfo {
   time: string;
   bird: { name: string; image: string };
 }
+
 domHandlers.createPage();
-document.body.append(domHandlers.createSearch());
 
 // TODO: display and style
 // theme button margin and styling etc

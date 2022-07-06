@@ -26,12 +26,9 @@ $colors: (
   #{$property}: var(--#{$color}, map-get($colors, '#{$color}'));
 }
 
-* {
-  transition: background-color 500ms linear;
-}
-
 html {
   @include color-var(background-color, surface1);
+  transition: background-color 1500ms linear;
 }
 
 :root {
