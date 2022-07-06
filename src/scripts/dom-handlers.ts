@@ -104,13 +104,14 @@ export default (function domHandlers() {
       showSpinner();
       const data = toLocationInfoPromise(searchbar.value)
         .then((result) => {
-          hideSpinner();
           hideError();
           console.log(result);
         })
         .catch((error) => {
-          hideSpinner();
           showError(error);
+        })
+        .finally(() => {
+          hideSpinner();
         });
 
       searchbar.value = '';

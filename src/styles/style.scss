@@ -112,18 +112,16 @@ header {
 }
 
 .search-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: calc(2rem + 25vh);
+  align-self: center;
   display: flex;
   flex-direction: column;
   width: fit-content;
-  place-self: center;
 }
 
+// IMPORTANT!
 .search-done {
-  transform: translateY(50px);
+  transform: translateY(-20vh);
   transition-duration: 2s;
 }
 
@@ -145,6 +143,9 @@ input[type='text'] {
   font-family: 'Roboto-Regular';
   font-size: 1.5rem;
   padding: 0.25rem;
+  border: 0;
+  outline: 2px solid;
+  @include color-var(outline-color, surface2);
 }
 
 .color-mode-btn {

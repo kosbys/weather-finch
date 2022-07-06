@@ -13,13 +13,21 @@ function FormatLocalTime(offset: number): string {
     .toLocaleString(DateTime.TIME_24_SIMPLE);
 }
 
+interface Weather {
+  coord: { lon: number; lat: number };
+  sys: { country: string };
+  main: { temp: number; humidity: number };
+  timezone: number;
+  weather: Array<{ description: string }>;
+}
+
 /**
  * Fetches weather information about a location
  *
  * @param location - The name of a location
  * @returns Promise JSON
  */
-async function getLocationWeather(location: string): Promise<any> {
+async function getLocationWeather(location: string): Promise<Weather> {
   const WEATHER_KEY = process.env.WEATHER_KEY; // located in .env
 
   if (!WEATHER_KEY) {
@@ -38,6 +46,10 @@ async function getLocationWeather(location: string): Promise<any> {
   throw new Error(`Cannot find ${location}`);
 }
 
+interface Bird {
+  comName: string;
+}
+
 /**
  * Fetches a list of notable recent birds spotted in the area
  *
@@ -45,7 +57,7 @@ async function getLocationWeather(location: string): Promise<any> {
  * @param lon - Longtitude of a location
  * @returns Promise JSON
  */
-async function getBird(lat: number, lon: number): Promise<any> {
+async function getBird(lat: number, lon: number): Promise<Array<Bird>> {
   const BIRD_KEY = process.env.BIRD_KEY; // located in .env
 
   if (!BIRD_KEY) {
@@ -101,18 +113,26 @@ async function getWikiPage(query: string): Promise<any> {
  * @returns Information about a location
  */
 export default async function toLocationInfoPromise(location: string): Promise<LocationInfo> {
-  try {
+  while (true) {
     const locationData = await getLocationWeather(location);
     const lat = locationData.coord.lat;
     const lon = locationData.coord.lon;
     const tempCelsius = Math.round(locationData.main.temp);
     const tempFahrenheit = Math.round(locationData.main.temp * 1.8 + 32);
 
-    const [bird] = await getBird(lat, lon); // Destructure to only contain first bird on list
+    const bird = await getBird(lat, lon);
 
-    const birdName = bird.comName;
+    let birdName;
+    let image;
 
-    const image = await getWikiPage(birdName);
+    for (let i = 0; i < bird.length; i++) {
+      birdName = bird[i].comName;
+
+      try {
+        image = await getWikiPage(birdName);
+        break;
+      } catch {}
+    }
 
     return await {
       location,
@@ -123,7 +143,5 @@ export default async function toLocationInfoPromise(location: string): Promise<L
       time: FormatLocalTime(locationData.timezone),
       bird: { name: birdName, image: image.originalimage.source },
     };
-  } catch (error) {
-    throw Error(error);
   }
 }
