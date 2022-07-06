@@ -115,7 +115,7 @@ header {
 }
 
 .search-container {
-  margin-top: 35vh;
+  margin-top: 25vh;
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -123,7 +123,7 @@ header {
 }
 
 .search-done {
-  margin-top: calc(1rem + 2.5vh);
+  margin-top: 5vh;
   transition-duration: 2s;
 }
 
@@ -155,6 +155,26 @@ input[type='text'] {
     @include color-var(color, element2);
     opacity: 0.6;
   }
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8vh;
+  & span {
+    margin-left: 5vw;
+    @include color-var(color, element2);
+  }
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bird-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .color-mode-btn {

@@ -19,6 +19,7 @@ export default (function domHandlers() {
 
   function displayLocationInfo(data: LocationInfo) {
     console.log(data);
+    document.getElementsByTagName('main')[0].style.visibility = 'visible';
   }
 
   function showSpinner() {
@@ -130,8 +131,44 @@ export default (function domHandlers() {
   }
 
   function createLocationInfo(): HTMLElement {
-    // todo: placeholder
     const main = document.createElement('main');
+    const weatherDiv = document.createElement('div');
+    weatherDiv.className = 'weather-info';
+    const birdDiv = document.createElement('div');
+    birdDiv.className = 'bird-info';
+
+    const weatherInfo = [
+      'location',
+      'country',
+      'temperature',
+      'humidity',
+      'weather',
+      'weatherIcon',
+      'time',
+    ];
+
+    const birdInfo = ['birdName', 'birdImage'];
+
+    weatherInfo.forEach((el) => {
+      const div = document.createElement('div');
+      div.className = el;
+      div.textContent = 'PLACEHOLDER';
+
+      weatherDiv.appendChild(div);
+    });
+
+    birdInfo.forEach((el) => {
+      const div = document.createElement('div');
+      div.className = el;
+      div.textContent = 'PLACEHOLDER';
+
+      birdDiv.appendChild(div);
+    });
+
+    main.style.visibility = 'hidden';
+
+    main.append(weatherDiv, birdDiv);
+
     return main;
   }
 
