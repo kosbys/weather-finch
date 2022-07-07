@@ -3,9 +3,9 @@ interface LocationInfo {
   country: string;
   temperature: number;
   humidity: number;
-  weather: string;
+  weather: { desc: string; icon: string };
   time: string;
-  bird: { name: string; image: string };
+  bird: { name: string; image: string; description: string; link: string };
 }
 
 interface Bird {
@@ -17,11 +17,13 @@ interface Weather {
   sys: { country: string };
   main: { temp: number; humidity: number };
   timezone: number;
-  weather: Array<{ description: string }>;
+  weather: Array<{ description: string; icon: string }>;
 }
 
-interface WikiImage {
+interface WikiPage {
   originalimage: { source: string };
+  extract: string;
+  content_urls: { desktop: { page: string } };
 }
 
-export { LocationInfo, Bird, Weather, WikiImage };
+export { LocationInfo, Bird, Weather, WikiPage };

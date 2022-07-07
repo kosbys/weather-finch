@@ -3,6 +3,7 @@ import { LocationInfo } from './interfaces';
 import Search from '../images/search-dark.svg';
 import Spinner from '../images/spinner.svg';
 import Bird from '../images/bird.svg';
+import Cloud from '../images/cloud.svg';
 
 export default (function domHandlers() {
   const weatherInfo = ['location', 'country', 'temperature', 'humidity', 'weather', 'time'];
@@ -19,27 +20,50 @@ export default (function domHandlers() {
   }
 
   function displayLocationInfo(data: LocationInfo) {
-    const main = document.getElementById('main');
+    const container = document.getElementById('container');
     const birdName = document.getElementsByClassName('bird-name')[0];
-    birdName.textContent = `I found a ${data.bird.name} in ${data.location}!`;
+    birdName.textContent = `${data.bird.name}`;
     const birdImage = document.getElementsByClassName('bird-image')[0] as HTMLImageElement;
     birdImage.src = data.bird.image;
+    const birdLink = document.getElementById('wiki-url') as HTMLAnchorElement;
+    birdLink.href = data.bird.link;
+    const birdDesc = document.getElementsByClassName('bird-description')[0];
 
-    main.style.visibility = 'visible';
+    const weatherIcon = document.getElementsByClassName('weather-icon')[0] as HTMLImageElement;
+    weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather.icon}@2x.png`;
+
+    birdDesc.textContent = data.bird.description;
+
+    container.style.visibility = 'visible';
 
     Object.entries(data).forEach(([key, value]) => {
       if (key !== 'bird') {
         const currentDiv = document.getElementsByClassName(key)[0];
 
-        currentDiv.textContent = `${key}: ${value}`;
+        switch (key) {
+          case 'location':
+          case 'country':
+            currentDiv.textContent = `${value}`;
+            break;
+          case 'temperature':
+            currentDiv.classList.add('celsius');
+            currentDiv.textContent = `${key}: ${value}℃`;
+            break;
 
-        if (key === 'humidity') {
-          currentDiv.textContent += '%';
-        }
+          case 'humidity':
+            currentDiv.textContent = `${key}: ${value}%`;
+            break;
 
-        if (key === 'temperature') {
-          currentDiv.classList.add('celsius');
-          currentDiv.textContent += '℃';
+          case 'time':
+            currentDiv.textContent = `Current time: ${value}`;
+            break;
+
+          case 'weather':
+            currentDiv.textContent = `${value.desc}`;
+            break;
+
+          default:
+            break;
         }
       }
     });
@@ -75,7 +99,7 @@ export default (function domHandlers() {
     if (type === 'empty') {
       error.textContent = 'Field empty';
     } else {
-      error.textContent = 'Location not found';
+      error.textContent = type;
     }
 
     if (error.style.display === 'none') {
@@ -87,6 +111,7 @@ export default (function domHandlers() {
     const searchbar = <HTMLInputElement>document.getElementsByName('location')[0];
     const weather = document.createElement('div');
     weather.classList.add('weather-info');
+    weather.style.backgroundImage = `url(${Cloud})`;
 
     if (searchbar.value === '') {
       showError('empty');
@@ -155,8 +180,8 @@ export default (function domHandlers() {
   }
 
   function createLocationInfo(): HTMLElement {
-    const main = document.createElement('main');
-    main.id = 'main';
+    const container = document.createElement('div');
+    container.id = 'container';
     const weatherDiv = document.createElement('div');
     weatherDiv.className = 'weather-info';
     const birdDiv = document.createElement('div');
@@ -175,23 +200,36 @@ export default (function domHandlers() {
       weatherDiv.appendChild(div);
     });
 
+    const birdDetails = document.createElement('div');
+    birdDetails.className = 'bird-details';
+
     const birdName = document.createElement('div');
     birdName.className = 'bird-name';
+
+    const birdDesc = document.createElement('p');
+    birdDesc.className = 'bird-description';
 
     const birdImage = document.createElement('img');
     birdImage.className = 'bird-image';
 
-    birdDiv.append(birdName, birdImage);
+    const birdLink = document.createElement('a');
+    birdLink.id = 'wiki-url';
 
-    main.style.visibility = 'hidden';
+    birdDetails.append(birdName, birdDesc);
 
-    main.append(weatherDiv, birdDiv);
+    birdLink.appendChild(birdImage);
 
-    return main;
+    birdDiv.append(birdDetails, birdLink);
+
+    container.style.visibility = 'hidden';
+
+    container.append(weatherDiv, birdDiv);
+
+    return container;
   }
 
   function createSearch(): HTMLElement {
-    const container = document.createElement('nav');
+    const container = document.createElement('main');
     container.className = 'search-container';
     const form = document.createElement('form');
     form.className = 'search';
@@ -220,7 +258,9 @@ export default (function domHandlers() {
 
     form.addEventListener('submit', sendForm);
 
-    container.append(form, err);
+    const info = createLocationInfo();
+
+    container.append(form, err, info);
 
     return container;
   }
@@ -238,11 +278,9 @@ export default (function domHandlers() {
 
     const header = createHeader();
 
-    const nav = createSearch();
+    const main = createSearch();
 
-    const main = createLocationInfo();
-
-    document.body.append(header, nav, main);
+    document.body.append(header, main);
   }
 
   return { createPage };

@@ -5,8 +5,20 @@
 }
 
 @font-face {
+  font-family: 'Finlandica';
+  font-weight: 400;
+  src: url('../fonts/Finlandica.ttf');
+}
+
+@font-face {
   font-family: 'FredokaOne-Regular';
   src: url('../fonts/FredokaOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Arima';
+  src: url('../fonts/Arima.ttf');
+  font-weight: 500;
 }
 
 $colors: (
@@ -103,7 +115,8 @@ header {
 
 .search {
   display: flex;
-  justify-content: start;
+  justify-content: center;
+  padding-left: 2rem;
 }
 
 .search-icon {
@@ -117,8 +130,6 @@ header {
 .search-container {
   margin-top: 25vh;
   align-self: center;
-  display: flex;
-  flex-direction: column;
   width: fit-content;
 }
 
@@ -157,6 +168,12 @@ input[type='text'] {
   }
 }
 
+#container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5vh;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -167,17 +184,25 @@ main {
   }
 }
 
+.weather-icon {
+  max-width: 50%;
+  place-self: center;
+}
+
 .weather-info {
   display: flex;
   flex-direction: column;
+  place-self: center;
+  padding: 2.5rem;
+  padding-top: 1.5rem;
   gap: 0.5rem;
-  @include color-var(color, element1);
-  & span {
-    @include color-var(color, element2);
-    font-family: 'Roboto-Regular';
-    text-transform: capitalize;
-    text-align: center;
-  }
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 1rem;
+  @include color-var(color, element2);
+  @include color-var(background-color, surface3);
+  @include color-var(color, element2);
+  font-family: 'Roboto-Regular';
+  text-transform: capitalize;
 }
 
 .bird-info {
@@ -187,17 +212,70 @@ main {
   place-items: center;
 }
 
+.bird-details {
+  place-self: center;
+  width: 50%;
+  font-family: 'Arima';
+  @include color-var(background-color, surface2);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 2rem;
+}
+
 .bird-name {
   @include color-var(color, primary);
-  font-family: 'Roboto-Regular';
-  font-size: 2rem;
-  padding-bottom: 1rem;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.bird-description {
+  @include color-var(color, element1);
+  word-wrap: wrap;
+  font-size: 1.15rem;
+  line-height: 1.3rem;
 }
 
 .bird-image {
   max-width: 50vw;
-  border-radius: 2rem;
+  flex-basis: 5rem;
+  border-radius: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.location {
+  text-align: center;
+  font-size: 2rem;
+  @include color-var(color, element3);
+}
+
+.country {
+  text-align: center;
+  margin-top: -0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  @include color-var(color, element2);
+}
+
+.temperature {
+  font-size: 1.2rem;
+  @include color-var(color, primary);
+}
+
+.humidity {
+  font-size: 1.2rem;
+  @include color-var(color, secondary);
+}
+
+.weather {
+  font-size: 1.4rem;
+  text-align: center;
+  @include color-var(color, tertiary);
+}
+
+.time {
+  padding-top: 0.5rem;
+  @include color-var(color, element1);
+  font-size: 1.1rem;
 }
 
 .color-mode-btn {
@@ -257,16 +335,27 @@ main {
   }
 
   .bird-name {
-    font-size: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .bird-details {
+    width: 90%;
+    padding: 0.25rem;
   }
 
   .bird-image {
     max-width: 100vw;
+    max-height: 100vh;
   }
 }
 
 @media (max-width: 500px) {
   .bird-image {
     max-width: 80vw;
+  }
+
+  .bird-details {
+    width: 90%;
+    padding: 0.25rem;
   }
 }

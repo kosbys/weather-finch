@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { LocationInfo, Bird, Weather, WikiImage } from './interfaces';
+import { LocationInfo, Bird, Weather, WikiPage } from './interfaces';
 
 /**
  * Parse time using luxon
@@ -76,7 +76,7 @@ async function getBird(lat: number, lon: number): Promise<Array<Bird>> {
  * @param query - Usually the name of a bird
  * @returns Promise JSON
  */
-async function getWikiPage(query: string): Promise<WikiImage> {
+async function getWikiPage(query: string): Promise<WikiPage> {
   const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${query}`, {
     method: 'GET',
   });
@@ -117,8 +117,13 @@ export default async function toLocationInfoPromise(location: string): Promise<L
     country: locationData.sys.country,
     temperature: tempCelsius,
     humidity: locationData.main.humidity,
-    weather: locationData.weather[0].description,
+    weather: { desc: locationData.weather[0].description, icon: locationData.weather[0].icon },
     time: FormatLocalTime(locationData.timezone),
-    bird: { name: birdName, image: image.originalimage.source },
+    bird: {
+      name: birdName,
+      image: image.originalimage.source,
+      description: image.extract,
+      link: image.content_urls.desktop.page,
+    },
   };
 }
