@@ -20,6 +20,8 @@ export default (function domHandlers() {
   }
 
   function displayLocationInfo(data: LocationInfo) {
+    console.log(data);
+
     const container = document.getElementById('container');
     const birdName = document.getElementsByClassName('bird-name')[0];
     birdName.textContent = `${data.bird.name}`;
@@ -260,7 +262,7 @@ export default (function domHandlers() {
 
     const info = createLocationInfo();
 
-    container.append(form, err, info);
+    container.append(err, form, info);
 
     return container;
   }

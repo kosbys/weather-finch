@@ -108,9 +108,35 @@ export default async function toLocationInfoPromise(location: string): Promise<L
 
   const bird = await getBird(lat, lon);
 
-  const birdName = bird[0].comName;
+  console.log(bird);
 
-  const image = await getWikiPage(birdName);
+  let birdName: string;
+  let image: WikiPage;
+
+  try {
+    birdName = bird[0].comName;
+    image = await getWikiPage(birdName);
+  } catch (error) {
+    birdName = 'Kauaʻi ʻōʻō (Fallback)';
+    image = {
+      originalimage: {
+        source: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Moho_braccatus.jpg',
+      },
+      extract: 'No bird was found.',
+      content_urls: { desktop: { page: 'https://www.youtube.com/watch?v=5THqAY3u5oY' } },
+    };
+  }
+
+  if (!bird || !image || bird.length === 0) {
+    birdName = 'Kauaʻi ʻōʻō (Fallback)';
+    image = {
+      originalimage: {
+        source: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Moho_braccatus.jpg',
+      },
+      extract: 'No bird was found.',
+      content_urls: { desktop: { page: 'https://www.youtube.com/watch?v=5THqAY3u5oY' } },
+    };
+  }
 
   return {
     location,

@@ -116,7 +116,8 @@ header {
 .search {
   display: flex;
   justify-content: center;
-  padding-left: 2rem;
+  align-self: center;
+  padding-left: 3rem;
 }
 
 .search-icon {
@@ -143,7 +144,7 @@ header {
   color: #ff4d4d;
   font-size: 1.2rem;
   font-family: 'Roboto-Regular';
-  padding-left: 2rem;
+  text-align: center;
 }
 
 .spinner {
