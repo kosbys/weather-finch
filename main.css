@@ -1,86 +1,63 @@
+/*!****************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.scss ***!
+  \****************************************************************************************************************/
 @font-face {
-  font-family: 'Roboto-Regular';
+  font-family: "Roboto-Regular";
   font-weight: 400;
-  src: url('../fonts/Roboto-Regular.ttf');
+  src: url(fc2b5060f7accec5cf74.ttf);
 }
-
 @font-face {
-  font-family: 'Finlandica';
+  font-family: "Finlandica";
   font-weight: 400;
-  src: url('../fonts/Finlandica.ttf');
+  src: url(009eee27686218f24352.ttf);
 }
-
 @font-face {
-  font-family: 'FredokaOne-Regular';
-  src: url('../fonts/FredokaOne-Regular.ttf');
+  font-family: "FredokaOne-Regular";
+  src: url(4aea26dd6637dfac0fac.ttf);
 }
-
 @font-face {
-  font-family: 'Arima';
-  src: url('../fonts/Arima.ttf');
+  font-family: "Arima";
+  src: url(6e528af4e0c37a723725.ttf);
   font-weight: 500;
 }
-
-$colors: (
-  'surface1': #eff1f5,
-  'surface2': #ccd0da,
-  'surface3': #acb0be,
-  'element1': #4c4f69,
-  'element2': #5c5f77,
-  'element3': #6c6f85,
-  'primary': #8839ef,
-  'secondary': #40a02b,
-  'tertiary': #e64553,
-);
-
-@mixin color-var($property, $color) {
-  #{$property}: map-get($colors, '#{$color}');
-  #{$property}: var(--#{$color}, map-get($colors, '#{$color}'));
-}
-
 html {
-  @include color-var(background-color, surface1);
+  background-color: #eff1f5;
+  background-color: var(--surface1, #eff1f5);
   transition: background-color 1500ms linear;
 }
 
-:root {
-  &[color-mode='light'] {
-    --surface1: #eff1f5;
-    --surface2: #ccd0da;
-    --surface3: #acb0be;
-    --element1: #4c4f69;
-    --element2: #5c5f77;
-    --element3: #6c6f85;
-    --primary: #8839ef;
-    --secondary: #40a02b;
-    --tertiary: #e64553;
-    --box-shadow: 20px 20px 60px #cacaca, -20px -20px 60px #ffffff;
-  }
-
-  &[color-mode='light'] .light {
-    display: none;
-  }
-
-  &[color-mode='dark'] {
-    --surface1: #1e1e2e;
-    --surface2: #45475a;
-    --surface3: #585b70;
-    --element1: #cdd6f4;
-    --element2: #bac2de;
-    --element3: #a6adc8;
-    --primary: #89b4fa;
-    --secondary: #a6e3a1;
-    --tertiary: #fab387;
-    --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
-  }
-
-  &[color-mode='dark'] .dark {
-    display: none;
-  }
-
-  &[color-mode='dark'] .search-icon {
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(236deg) brightness(102%) contrast(102%);
-  }
+:root[color-mode=light] {
+  --surface1: #eff1f5;
+  --surface2: #ccd0da;
+  --surface3: #acb0be;
+  --element1: #4c4f69;
+  --element2: #5c5f77;
+  --element3: #6c6f85;
+  --primary: #8839ef;
+  --secondary: #40a02b;
+  --tertiary: #e64553;
+  --box-shadow: 20px 20px 60px #cacaca, -20px -20px 60px #ffffff;
+}
+:root[color-mode=light] .light {
+  display: none;
+}
+:root[color-mode=dark] {
+  --surface1: #1e1e2e;
+  --surface2: #45475a;
+  --surface3: #585b70;
+  --element1: #cdd6f4;
+  --element2: #bac2de;
+  --element3: #a6adc8;
+  --primary: #89b4fa;
+  --secondary: #a6e3a1;
+  --tertiary: #fab387;
+  --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
+}
+:root[color-mode=dark] .dark {
+  display: none;
+}
+:root[color-mode=dark] .search-icon {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(236deg) brightness(102%) contrast(102%);
 }
 
 body {
@@ -97,15 +74,17 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  @include color-var(background-color, surface3);
-  & span {
-    font-family: 'FredokaOne-Regular';
-    display: flex;
-    @include color-var(color, tertiary);
-    align-self: center;
-    margin: 1rem;
-    font-size: 2rem;
-  }
+  background-color: #acb0be;
+  background-color: var(--surface3, #acb0be);
+}
+header span {
+  font-family: "FredokaOne-Regular";
+  display: flex;
+  color: #e64553;
+  color: var(--tertiary, #e64553);
+  align-self: center;
+  margin: 1rem;
+  font-size: 2rem;
 }
 
 #bird-icon {
@@ -123,9 +102,9 @@ header {
 .search-icon {
   cursor: pointer;
   margin-left: 0.25rem;
-  &:hover {
-    transform: scale(1.05);
-  }
+}
+.search-icon:hover {
+  transform: scale(1.05);
 }
 
 .search-container {
@@ -143,7 +122,7 @@ header {
   padding-top: 0.5rem;
   color: #ff4d4d;
   font-size: 1.2rem;
-  font-family: 'Roboto-Regular';
+  font-family: "Roboto-Regular";
   text-align: center;
 }
 
@@ -155,19 +134,23 @@ header {
   filter: invert(100%) sepia(94%) saturate(0%) hue-rotate(329deg) brightness(108%) contrast(108%);
 }
 
-input[type='text'] {
-  font-family: 'Roboto-Regular';
+input[type=text] {
+  font-family: "Roboto-Regular";
   font-size: 1.5rem;
   padding: 0.25rem;
   border: 0;
   outline: 2px solid;
-  @include color-var(outline-color, surface3);
-  @include color-var(color, element1);
-  @include color-var(background-color, surface2);
-  &::placeholder {
-    @include color-var(color, element2);
-    opacity: 0.6;
-  }
+  outline-color: #acb0be;
+  outline-color: var(--surface3, #acb0be);
+  color: #4c4f69;
+  color: var(--element1, #4c4f69);
+  background-color: #ccd0da;
+  background-color: var(--surface2, #ccd0da);
+}
+input[type=text]::placeholder {
+  color: #5c5f77;
+  color: var(--element2, #5c5f77);
+  opacity: 0.6;
 }
 
 #container {
@@ -181,9 +164,10 @@ main {
   flex-direction: column;
   justify-content: space-around;
   margin-top: 8vh;
-  & span {
-    @include color-var(color, element2);
-  }
+}
+main span {
+  color: #5c5f77;
+  color: var(--element2, #5c5f77);
 }
 
 .weather-icon {
@@ -200,10 +184,13 @@ main {
   gap: 0.5rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   border-radius: 1rem;
-  @include color-var(color, element2);
-  @include color-var(background-color, surface3);
-  @include color-var(color, element2);
-  font-family: 'Roboto-Regular';
+  color: #5c5f77;
+  color: var(--element2, #5c5f77);
+  background-color: #acb0be;
+  background-color: var(--surface3, #acb0be);
+  color: #5c5f77;
+  color: var(--element2, #5c5f77);
+  font-family: "Roboto-Regular";
   text-transform: capitalize;
 }
 
@@ -217,21 +204,24 @@ main {
 .bird-details {
   place-self: center;
   width: 50%;
-  font-family: 'Arima';
-  @include color-var(background-color, surface2);
+  font-family: "Arima";
+  background-color: #ccd0da;
+  background-color: var(--surface2, #ccd0da);
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 2rem;
 }
 
 .bird-name {
-  @include color-var(color, primary);
+  color: #8839ef;
+  color: var(--primary, #8839ef);
   text-align: center;
   font-size: 3rem;
 }
 
 .bird-description {
-  @include color-var(color, element1);
+  color: #4c4f69;
+  color: var(--element1, #4c4f69);
   word-wrap: wrap;
   font-size: 1.15rem;
   line-height: 1.3rem;
@@ -247,7 +237,8 @@ main {
 .location {
   text-align: center;
   font-size: 2rem;
-  @include color-var(color, element3);
+  color: #6c6f85;
+  color: var(--element3, #6c6f85);
 }
 
 .country {
@@ -255,28 +246,33 @@ main {
   margin-top: -0.5rem;
   padding-bottom: 0.5rem;
   font-size: 1.5rem;
-  @include color-var(color, element2);
+  color: #5c5f77;
+  color: var(--element2, #5c5f77);
 }
 
 .temperature {
   font-size: 1.2rem;
-  @include color-var(color, primary);
+  color: #8839ef;
+  color: var(--primary, #8839ef);
 }
 
 .humidity {
   font-size: 1.2rem;
-  @include color-var(color, secondary);
+  color: #40a02b;
+  color: var(--secondary, #40a02b);
 }
 
 .weather {
   font-size: 1.4rem;
   text-align: center;
-  @include color-var(color, tertiary);
+  color: #e64553;
+  color: var(--tertiary, #e64553);
 }
 
 .time {
   padding-top: 0.5rem;
-  @include color-var(color, element1);
+  color: #4c4f69;
+  color: var(--element1, #4c4f69);
   font-size: 1.1rem;
 }
 
@@ -285,14 +281,16 @@ main {
   margin-right: 2rem;
   height: 1.5rem;
   width: 1.2rem;
-  @include color-var(background-color, surface1);
+  background-color: #eff1f5;
+  background-color: var(--surface1, #eff1f5);
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
-  @include color-var(color, element2);
+  color: #5c5f77;
+  color: var(--element2, #5c5f77);
   cursor: pointer;
   flex: 0 0 auto;
-  font-family: 'Roboto-Regular';
+  font-family: "Roboto-Regular";
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.5rem;
@@ -307,14 +305,15 @@ main {
   -webkit-user-select: none;
   touch-action: manipulation;
   width: auto;
-  &:hover {
-    @include color-var(background-color, surface2);
-  }
-  &:focus {
-    box-shadow: none;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-  }
+}
+.color-mode-btn:hover {
+  background-color: #ccd0da;
+  background-color: var(--surface2, #ccd0da);
+}
+.color-mode-btn:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
@@ -323,39 +322,31 @@ main {
     font-size: 14px;
     margin-right: 10px;
   }
-
   #header-text {
     font-size: 18px;
   }
-
   .search-error {
     font-family: 1rem;
   }
-
-  input[type='text'] {
+  input[type=text] {
     font-size: 1.1rem;
   }
-
   .bird-name {
     font-size: 1.5rem;
   }
-
   .bird-details {
     width: 90%;
     padding: 0.25rem;
   }
-
   .bird-image {
     max-width: 100vw;
     max-height: 100vh;
   }
 }
-
 @media (max-width: 500px) {
   .bird-image {
     max-width: 80vw;
   }
-
   .bird-details {
     width: 90%;
     padding: 0.25rem;
