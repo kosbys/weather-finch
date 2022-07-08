@@ -12,11 +12,11 @@ A small app that allows you to search for the current temperature of any city in
 git clone git@github.com:kosbys/weather-finch.git
 cd weather-finch
 npm install
+npm run build
 ```
 
 ##  :wrench: Made with:
 
-- Webpack
 - TypeScript
 - Sass
 
